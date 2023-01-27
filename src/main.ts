@@ -11,6 +11,9 @@ const VERIFIER_VERSION = 'v2.0.0'
 const VERIFIER_SHA256 =
   '8d2e93a9ea0126d5daec22f2778b42fea79192605d16955f0c91847c3a6a8921'
 
+/**
+ * downloadReleaseArtifact downloads a release artifact from a GitHub release.
+ */
 async function downloadReleaseArtifact(
   repo: string,
   version: string,
@@ -23,6 +26,10 @@ async function downloadReleaseArtifact(
   return downloadPath
 }
 
+/**
+ * downloadAndVerify downloads a release artifact from a GitHub release and
+ * verifies it against a SLSA attestation.
+ */
 async function downloadAndVerify(
   repo: string,
   version: string,
@@ -71,7 +78,7 @@ async function downloadAndVerify(
     '--provenance-path',
     intotoPath,
     '--source-uri',
-    'github.com/ianlewis/figure',
+    `github.com/${repo}`,
     '--source-tag',
     version
   ])
@@ -79,6 +86,10 @@ async function downloadAndVerify(
   return artifactPath
 }
 
+/**
+ * runCommand runs the given command with the given arguments and returns the
+ * stdout output.
+ */
 async function runCommand(cmd: string, args: string[]): Promise<string> {
   const {exitCode, stdout, stderr} = await exec.getExecOutput(cmd, args)
   if (exitCode !== 0) {
@@ -93,6 +104,7 @@ async function run(): Promise<void> {
     const file: string = core.getInput('file')
     const version: string = core.getInput('version')
 
+    // TODO: Change to download and run your tool.
     const figurePath = await downloadAndVerify(
       'ianlewis/figure',
       version,
