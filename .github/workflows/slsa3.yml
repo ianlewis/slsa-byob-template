@@ -9,12 +9,15 @@ on:
     inputs:
       message:
         required: false
+        type: string
         description: 'The message'
       file:
         required: false
+        type: string
         description: 'File to write the message to.'
       version:
         required: false
+        type: string
         description: 'Version of figure to use.'
 
       rekor-log-public:
