@@ -1,0 +1,89 @@
+name: SLSA3 Builder
+description: 'Runs figure and generates SLSA3 provenance'
+
+permissions: read
+
+on:
+  workflow_call:
+    # TODO: Update the inputs for your workflow.
+    # In most cases, thes should mirror your action's inputs.
+    inputs:
+      message:
+        required: false
+        description: 'The message'
+      file:
+        required: false
+        description: 'File to write the message to.'
+      version:
+        required: false
+        description: 'Version of figure to use.'
+
+      rekor-log-public:
+        description: 'Allow publication of your repository name on the public Rekor log'
+        required: false
+        type: boolean
+        default: false
+
+    # TODO: Add secrets if necessary.
+    # secrets:
+    #   hoge:
+    #     required: true
+    #     description: "lorem ipsum"
+
+jobs:
+  slsa-setup:
+    permissions:
+      id-token: write # For token creation.
+    outputs:
+      slsa-token: ${{ steps.generate.outputs.slsa-token }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate the token
+        id: generate
+        # TODO(github.com/ianlewis/slsa-byob-template/issues/11): Update version once released.
+        uses: slsa-framework/slsa-github-generator/actions/delegator/setup-token@main
+        with:
+          slsa-workflow-recipient: 'delegator_generic_slsa3.yml'
+          slsa-rekor-log-public: ${{ inputs.rekor-log-public }}
+          slsa-runner-label: 'ubuntu-latest'
+          slsa-build-action-path: './internal/action-wrapper'
+          # TODO(https://github.com/slsa-framework/slsa-github-generator/issues/1575): mask sensitive fields.
+          slsa-workflow-inputs: ${{ toJson(inputs) }}
+
+  slsa-run:
+    needs: [slsa-setup]
+    permissions:
+      id-token: write # For signing.
+      contents: write # For asset uploads.
+      actions: read # For the entrypoint.
+      packages: write
+    uses: slsa-framework/slsa-github-generator/.github/workflows/delegator_generic_slsa3.yml@main
+    with:
+      slsa-token: ${{ needs.slsa-setup.outputs.slsa-token }}
+    # TODO: Set secrets if necessary.
+    # secrets:
+    #   secret1: ${{ secrets.github-token }}
+    #   secret2: ${{ secrets.mysecret }}
+
+  # TODO(github.com/ianlewis/slsa-byob-template/issues/10): verify the attestation.
+  # slsa-publish:
+  #   needs: [slsa-run]
+  #   if: startsWith(github.ref, 'refs/tags/')
+  #   permissions:
+  #     contents: write # For asset uploads. Optional
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Download attestations
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: ${{ needs.slsa-run.outputs.attestations-download-name }}
+  #     - name: Verify attestations
+  #       env:
+  #         SLSA_ATTESTATION_DOWNLOAD_NAME: ${{ needs.slsa-run.outputs.attestations-download-name }}
+  #       run: |
+  #         echo "download from $SLSA_ATTESTATION_DOWNLOAD_NAME"
+  #     - name: Upload SBOM provenance
+  #       uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+  #       with:
+  #         files: |
+  #           *.sigstore
