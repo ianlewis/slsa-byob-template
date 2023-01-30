@@ -1,7 +1,6 @@
 name: SLSA3 Builder
-description: 'Runs figure and generates SLSA3 provenance'
 
-permissions: read
+permissions: {}
 
 on:
   workflow_call:
