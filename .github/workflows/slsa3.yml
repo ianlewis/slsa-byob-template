@@ -4,22 +4,29 @@ permissions: {}
 
 on:
   workflow_call:
-    # TODO: Update the inputs for your workflow.
-    # In most cases, thes should mirror your action's inputs.
+    # NOTE: You need to maintain the defaults here as well as your main
+    # action.yml
     inputs:
+      # TODO: Update the inputs for your workflow.
+      # In most cases, thes should mirror your action's inputs.
       message:
         required: false
         type: string
         description: 'The message'
+        default: 'Hello World!'
       file:
         required: false
         type: string
         description: 'File to write the message to.'
+        default: 'message.txt'
       version:
         required: false
         type: string
         description: 'Version of figure to use.'
+        default: 'v0.0.2'
 
+      # NOTE: the additional inputs below are to support additional
+      # functionality of the workflow.
       rekor-log-public:
         description: 'Allow publication of your repository name on the public Rekor log'
         required: false

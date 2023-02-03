@@ -7,6 +7,8 @@ branding:
   icon: package
 
 # TODO: Update the inputs for your action.
+# NOTE: You need to maintain the defaults here as well as your SLSA reusable
+# workflow.
 inputs:
   message:
     required: false
