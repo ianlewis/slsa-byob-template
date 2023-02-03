@@ -1,5 +1,5 @@
 # TODO: Update the name, description, author, and branding for your action.
-name: 'BYOB Example Tool Action'
+name: 'GitHub Action SLSA generation example'
 description: 'Create a SLSA builder reusable workflow using your tool.'
 author: 'SLSA Team'
 branding:
