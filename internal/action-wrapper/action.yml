@@ -13,12 +13,12 @@ inputs:
     required: true
 
   slsa-workflow-secret1:
-    description: 'secret1 stores the registry username'
+    description: 'secret1 is unused'
     type: string
     required: false
 
   slsa-workflow-secret2:
-    description: 'secret2 stores the github-token'
+    description: 'secret2 is unused'
     type: string
     required: false
 
@@ -36,3 +36,26 @@ runs:
         message: ${{ fromJson(inputs.slsa-workflow-inputs).message }}
         file: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
         version: ${{ fromJson(inputs.slsa-workflow-inputs).version }}
+
+    - name: Generate layout file
+      id: generate-layout
+      env:
+        SLSA_OUTPUTS_ARTIFACTS_FILE: ${{ inputs.slsa-layout-file }}
+        UNTRUSTED_OUTPUT_FILE: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
+      shell: bash
+      run: |
+        cat <<EOF | tee "$SLSA_OUTPUTS_ARTIFACTS_FILE" | jq
+        {
+            "version": 1,
+            "attestations":
+            [
+                {
+                    "name": "attestation.intoto",
+                    "subjects":
+                    [
+                        "${UNTRUSTED_OUTPUT_FILE}"
+                    ]
+                }
+            ]
+        }
+        EOF
