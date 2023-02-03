@@ -10,7 +10,7 @@ Click the `Use this Template` and provide the new repo details for your action.
 This repo also can serve as an example of how to add SLSA generation reusable
 workflow to your existing action.
 
-## GitHub Actions
+## GitHub Action
 
 The GitHub action in this template includes compilation support, tests, a
 validation workflow, publishing, and versioning guidance.
@@ -111,3 +111,10 @@ See the [actions tab](https://github.com/actions/typescript-action/actions) for 
 ### Usage:
 
 After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+
+## SLSA reusable workflow
+
+This repository template includes a reusable workflow that wraps the GitHub
+Action and generates SLSA provenance for the resulting artifacts using the
+[slsa-github-generator](https://github.com/slsa-framework/slsa-github-generator)
+project.
