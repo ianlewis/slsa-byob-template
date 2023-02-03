@@ -5,7 +5,7 @@
 Use this template to bootstrap the creation of a TypeScript action and SLSA
 generation reusable workflow. :rocket:
 
-Click the `Use this Template` and provide the new repo details for your action
+Click the `Use this Template` and provide the new repo details for your action.
 
 This repo also can serve as an example of how to add SLSA generation reusable
 workflow to your existing action.
@@ -77,7 +77,7 @@ run()
 
 See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
-## Publish to a distribution branch
+### Publish to a distribution branch
 
 Actions are run from GitHub repos so we will checkin the packed dist folder.
 
