@@ -59,4 +59,4 @@ runs:
         UNTRUSTED_OUTPUT_FILE: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
       shell: bash
       run: |
-        ./../__TOOL_ACTION_DIR__/generate-layout.sh | tee "$SLSA_OUTPUTS_ARTIFACTS_FILE"
+        ./../__TOOL_ACTION_DIR__/generate-layout.sh "${UNTRUSTED_OUTPUT_FILE}" | tee "$SLSA_OUTPUTS_ARTIFACTS_FILE"
