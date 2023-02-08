@@ -59,18 +59,4 @@ runs:
         UNTRUSTED_OUTPUT_FILE: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
       shell: bash
       run: |
-        cat <<EOF | tee "$SLSA_OUTPUTS_ARTIFACTS_FILE" | jq
-        {
-            "version": 1,
-            "attestations":
-            [
-                {
-                    "name": "attestation.intoto",
-                    "subjects":
-                    [
-                        "${UNTRUSTED_OUTPUT_FILE}"
-                    ]
-                }
-            ]
-        }
-        EOF
+        ./../__TOOL_ACTION_DIR__/generate-layout.sh | tee "$SLSA_OUTPUTS_ARTIFACTS_FILE"
