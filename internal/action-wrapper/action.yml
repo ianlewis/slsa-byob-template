@@ -38,15 +38,14 @@ runs:
         file: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
         version: ${{ fromJson(inputs.slsa-workflow-inputs).version }}
 
-    # NOTE: Your main action may already support uploading to a release so this
-    #       may not be necessary.
-    - name: Upload to release
-      id: release-tag-name
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+    # NOTE: Your main action may already support uploading to the GitHub
+    #       Actions run or release so this may not be necessary.
+    - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce # v3.1.2
       with:
-        files: |
-          ${{ fromJson(inputs.slsa-workflow-inputs).file }}
+        name: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
+        path: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
+        if-no-files-found: error
+        retention-days: 5
 
     # NOTE: Here we create a JSON file that describes the attestations we want
     #       to create. Each attestation will be created as a separate file,
