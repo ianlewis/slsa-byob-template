@@ -103,4 +103,4 @@ jobs:
         with:
           files: |
             ${{ inputs.file }}
-            ${{ needs.slsa-run.outputs.attestations-download-name }}
+            *.sigstore
