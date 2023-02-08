@@ -85,15 +85,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ needs.slsa-run.outputs.attestations-download-name }}
-      # TODO(github.com/ianlewis/slsa-byob-template/issues/10): verify the attestation.
+
+      # TODO(github.com/ianlewis/slsa-byob-template/issues/10): verify the attestation before upload.
       - name: Verify attestations
         env:
           SLSA_ATTESTATION_DOWNLOAD_NAME: ${{ needs.slsa-run.outputs.attestations-download-name }}
         run: |
           echo "download from $SLSA_ATTESTATION_DOWNLOAD_NAME"
-      - name: Upload SBOM provenance
+
+      - name: Upload artifact and provenance
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
         with:
           files: |
-            ${{ inputs.file }}
-            *.sigstore
+            ${{ needs.slsa-run.outputs.attestations-download-name }}
