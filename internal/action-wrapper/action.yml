@@ -28,15 +28,31 @@ runs:
     # NOTE: the repository is already cloned by the caller, so there's no need to
     # checkout ourselves.
 
-    # This calls the main Action, e.g., ./../__TOOL_CHECKOUT_DIR__/<path/to/action>
-    # if path is left empty, the Action's action.yml is located at the root of the repository.
-    - name: Run main sbom-action Action
+    # This calls the main action, e.g.,
+    # ./../__TOOL_CHECKOUT_DIR__/<path/to/action> if path is left empty, the
+    # action's action.yml is located at the root of the repository.
+    - name: Run main Action
       uses: ./../__TOOL_CHECKOUT_DIR__
       with:
         message: ${{ fromJson(inputs.slsa-workflow-inputs).message }}
         file: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
         version: ${{ fromJson(inputs.slsa-workflow-inputs).version }}
 
+    # NOTE: Your main action may already support uploading to a release so this
+    #       may not be necessary.
+    - name: Upload to release
+      id: release-tag-name
+      if: github.event_name == 'tag'
+      uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+      with:
+        files: |
+          ${{ fromJson(inputs.slsa-workflow-inputs).file }}
+
+    # NOTE: Here we create a JSON file that describes the attestations we want
+    #       to create. Each attestation will be created as a separate file,
+    #       each with the subjects specified. This allows complicated release
+    #       pipelines that output many artifacts to organize the attestations
+    #       for those artifacts in a flexible way.
     - name: Generate layout file
       id: generate-layout
       env:
