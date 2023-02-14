@@ -268,10 +268,10 @@ runs:
     # ./../__TOOL_CHECKOUT_DIR__/<path/to/action> if path is left empty, the
     # action's action.yml is located at the root of the repository.
     - name: Run main Action
-			# *** Update this path if it's not the root of the repository ***
+      # *** Update this path if it's not the root of the repository ***
       uses: ./../__TOOL_CHECKOUT_DIR__
       with:
-				# *** Set these inputs! ***
+        # *** Set these inputs! ***
         message: ${{ fromJson(inputs.slsa-workflow-inputs).message }}
         file: ${{ fromJson(inputs.slsa-workflow-inputs).file }}
         version: ${{ fromJson(inputs.slsa-workflow-inputs).version }}
