@@ -8,7 +8,24 @@ generation reusable workflow. :rocket:
 Click the `Use this Template` and provide the new repo details for your action.
 
 This repo also can serve as an example of how to add SLSA generation reusable
-workflow to your existing action.
+workflow to your existing action. It includes a sample GitHub action that can be
+used as a standalone GitHub action, as well as a reusable workflow that wraps
+the action and provides SLSA provenance generation.
+
+## Getting Started
+
+You may be starting from different starting points depending on your situation.
+
+1. If would like to provide SLSA provenance generation for your existing tool
+   but do not have an existing GitHub Action, start from the [GitHub
+   Action](#github-action) section. This will guide you through developing a
+   GitHub Action for your tool. You can then proceed to the [SLSA Reusable
+   Workflow](#slsa-reusable-workflow) section to add SLSA provenance generation.
+2. If you already have a GitHub action and would like to add support for SLSA
+   provenace generation you can start at the [SLSA Reusable
+   Workflow](#slsa-reusable-workflow) section. Be sure to read the section on
+   [Adding SLSA Provenance to an Existing GitHub
+   Action](#adding-slsa-provenance-to-an-existing-github-action).
 
 ## GitHub Action
 
@@ -112,9 +129,13 @@ See the [actions tab](https://github.com/actions/typescript-action/actions) for 
 
 After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
 
-## SLSA reusable workflow
+## SLSA Reusable Workflow
 
 This repository template includes a reusable workflow that wraps the GitHub
 Action and generates SLSA provenance for the resulting artifacts using the
 [slsa-github-generator](https://github.com/slsa-framework/slsa-github-generator)
 project.
+
+### Adding SLSA Provenance to an Existing GitHub Action
+
+TODO
