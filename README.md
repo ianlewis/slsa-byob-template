@@ -146,9 +146,12 @@ requirements for [SLSA level 3 and above](https://slsa.dev/spec/v0.1/levels).
 
 This section covers adding SLSA provenance generation to an existing GitHub
 Action. This section assumes that you already have a repository set up that
-contains the code for your GitHub Action. Rather than creating a new repository
-using this template repository, we will copy some of the code from the template
-repository into your GitHub Action's repository in order to add support for SLSA
+contains the code for your GitHub Action. You can skip this section if you
+creating a new GitHub Action.
+
+For an existing GitHub Action, rather than creating a new repository using this
+template repository, we will copy some of the code from the template repository
+into your GitHub Action's repository in order to add support for SLSA
 provenance.
 
 Set the path to your GitHub Action's repository.
